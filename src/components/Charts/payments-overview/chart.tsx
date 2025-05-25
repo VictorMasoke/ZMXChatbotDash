@@ -1,3 +1,4 @@
+// OrdersOverviewChart.tsx
 "use client";
 
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -6,8 +7,8 @@ import dynamic from "next/dynamic";
 
 type PropsType = {
   data: {
-    received: { x: unknown; y: number }[];
-    due: { x: unknown; y: number }[];
+    buy: { x: unknown; y: number }[];
+    sell: { x: unknown; y: number }[];
   };
 };
 
@@ -15,14 +16,14 @@ const Chart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
-export function PaymentsOverviewChart({ data }: PropsType) {
+export function OrdersOverviewChart({ data }: PropsType) {
   const isMobile = useIsMobile();
 
   const options: ApexOptions = {
     legend: {
       show: false,
     },
-    colors: ["#5750F1", "#0ABEF9"],
+    colors: ["#12AA4E", "#D6A329"],
     chart: {
       height: 310,
       type: "area",
@@ -91,12 +92,12 @@ export function PaymentsOverviewChart({ data }: PropsType) {
         options={options}
         series={[
           {
-            name: "Received",
-            data: data.received,
+            name: "Buy Orders",
+            data: data.buy,
           },
           {
-            name: "Due",
-            data: data.due,
+            name: "Sell Orders",
+            data: data.sell,
           },
         ]}
         type="area"

@@ -1,121 +1,150 @@
-import * as logos from "@/assets/logos";
 
-export async function getTopProducts() {
-  // Fake delay
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+// lib/fetch.ts
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:5000';
 
-  return [
-    {
-      image: "/images/product/product-01.png",
-      name: "Apple Watch Series 7",
-      category: "Electronics",
-      price: 296,
-      sold: 22,
-      profit: 45,
-    },
-    {
-      image: "/images/product/product-02.png",
-      name: "Macbook Pro M1",
-      category: "Electronics",
-      price: 546,
-      sold: 12,
-      profit: 125,
-    },
-    {
-      image: "/images/product/product-03.png",
-      name: "Dell Inspiron 15",
-      category: "Electronics",
-      price: 443,
-      sold: 64,
-      profit: 247,
-    },
-    {
-      image: "/images/product/product-04.png",
-      name: "HP Probook 450",
-      category: "Electronics",
-      price: 499,
-      sold: 72,
-      profit: 103,
-    },
-  ];
+async function fetchWithAuth(url: string, options: RequestInit = {}) {
+  const username = process.env.NEXT_PUBLIC_API_USERNAME;
+  const password = process.env.NEXT_PUBLIC_API_PASSWORD;
+
+  const headers = new Headers(options.headers || {});
+  headers.set('Authorization', `Basic ${btoa(`${username}:${password}`)}`);
+  headers.set('Content-Type', 'application/json');
+
+  const response = await fetch(`${API_BASE_URL}${url}`, {
+    ...options,
+    headers,
+  });
+
+  if (!response.ok) {
+    throw new Error(`API request failed: ${response.statusText}`);
+  }
+
+  return response.json();
 }
 
-export async function getInvoiceTableData() {
-  // Fake delay
-  await new Promise((resolve) => setTimeout(resolve, 1400));
-
-  return [
-    {
-      name: "Free package",
-      price: 0.0,
-      date: "2023-01-13T18:00:00.000Z",
-      status: "Paid",
-    },
-    {
-      name: "Standard Package",
-      price: 59.0,
-      date: "2023-01-13T18:00:00.000Z",
-      status: "Paid",
-    },
-    {
-      name: "Business Package",
-      price: 99.0,
-      date: "2023-01-13T18:00:00.000Z",
-      status: "Unpaid",
-    },
-    {
-      name: "Standard Package",
-      price: 59.0,
-      date: "2023-01-13T18:00:00.000Z",
-      status: "Pending",
-    },
-  ];
+export async function getRegisteredUsers() {
+  try {
+    // Fake delay for development
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return await fetchWithAuth('/api/users');
+  } catch (error) {
+    console.error('Error fetching registered users:', error);
+    return [];
+  }
 }
 
-export async function getTopChannels() {
-  // Fake delay
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-
-  return [
-    {
-      name: "Google",
-      visitors: 3456,
-      revenues: 4220,
-      sales: 3456,
-      conversion: 2.59,
-      logo: logos.google,
-    },
-    {
-      name: "X.com",
-      visitors: 3456,
-      revenues: 4220,
-      sales: 3456,
-      conversion: 2.59,
-      logo: logos.x,
-    },
-    {
-      name: "Github",
-      visitors: 3456,
-      revenues: 4220,
-      sales: 3456,
-      conversion: 2.59,
-      logo: logos.github,
-    },
-    {
-      name: "Vimeo",
-      visitors: 3456,
-      revenues: 4220,
-      sales: 3456,
-      conversion: 2.59,
-      logo: logos.vimeo,
-    },
-    {
-      name: "Facebook",
-      visitors: 3456,
-      revenues: 4220,
-      sales: 3456,
-      conversion: 2.59,
-      logo: logos.facebook,
-    },
-  ];
+export async function getBuyOrders() {
+  try {
+    // Fake delay for development
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return await fetchWithAuth('/api/buy-orders');
+  } catch (error) {
+    console.error('Error fetching buy orders:', error);
+    return [];
+  }
 }
+
+export async function getSellOrders() {
+  try {
+    // Fake delay for development
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return await fetchWithAuth('/api/sell-orders');
+  } catch (error) {
+    console.error('Error fetching sell orders:', error);
+    return [];
+  }
+}
+
+// Dashboard functions
+export async function getDashboardUsers() {
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return await fetchWithAuth('/api/dashboard/users');
+  } catch (error) {
+    console.error('Error fetching dashboard user stats:', error);
+    return null;
+  }
+}
+
+export async function getDashboardBuyOrders() {
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return await fetchWithAuth('/api/dashboard/buy-orders');
+  } catch (error) {
+    console.error('Error fetching dashboard buy order stats:', error);
+    return null;
+  }
+}
+
+export async function getDashboardSellOrders() {
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return await fetchWithAuth('/api/dashboard/sell-orders');
+  } catch (error) {
+    console.error('Error fetching dashboard sell order stats:', error);
+    return null;
+  }
+}
+
+export async function getOrderTrends() {
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return await fetchWithAuth('/api/dashboard/order-trends');
+  } catch (error) {
+    console.error('Error fetching order trends:', error);
+    return [];
+  }
+}
+
+// AI Learning functions
+export async function getAILearningData() {
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return await fetchWithAuth('/api/ai-learning');
+  } catch (error) {
+    console.log(error);
+    console.error('Error fetching AI learning data:', error);
+    return [];
+  }
+}
+
+export async function addAILearningData(data: { model_name: string; input_text: string; prediction: string }) {
+  try {
+    const response = await fetchWithAuth('/api/add-learning-data', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+    return response;
+  } catch (error) {
+    console.error('Error adding AI learning data:', error);
+    throw error;
+  }
+}
+
+export async function sendCustomMessage(data: { phone_number: string; message: string }) {
+  try {
+    const response = await fetchWithAuth('/api/send-custom-message', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+    return response;
+  } catch (error) {
+    console.error('Error sending custom message:', error);
+    throw error;
+  }
+}
+
+
+// Add this to your existing API functions
+export async function deleteAILearningData(id: number) {
+  try {
+    const response = await fetchWithAuth(`/api/ai-learning/${id}`, {
+      method: 'DELETE',
+    });
+    return response;
+  } catch (error) {
+    console.error('Error deleting AI learning data:', error);
+    throw error;
+  }
+}
+

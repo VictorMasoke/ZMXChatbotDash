@@ -5,48 +5,50 @@ import type { JSX, SVGProps } from "react";
 type PropsType = {
   label: string;
   data: {
-    value: number | string;
-    growthRate: number;
+    value: string;
+    change?: number | null;  // Can be null from API
+    description?: string;
   };
   Icon: (props: SVGProps<SVGSVGElement>) => JSX.Element;
 };
 
 export function OverviewCard({ label, data, Icon }: PropsType) {
-  const isDecreasing = data.growthRate < 0;
+  // Handle null/undefined change values
+  const hasChange = typeof data.change === 'number';
+  const isDecreasing = hasChange ? data.change! < 0 : false;
 
   return (
     <div className="rounded-[10px] bg-white p-6 shadow-1 dark:bg-gray-dark">
-      <Icon />
+      <Icon/>
 
       <div className="mt-6 flex items-end justify-between">
-        <dl>
-          <dt className="mb-1.5 text-heading-6 font-bold text-dark dark:text-white">
+        <div>
+          <h3 className="mb-1.5 text-heading-6 font-bold text-dark dark:text-white">
             {data.value}
-          </dt>
-
-          <dd className="text-sm font-medium text-dark-6">{label}</dd>
-        </dl>
-
-        <dl
-          className={cn(
-            "text-sm font-medium",
-            isDecreasing ? "text-red" : "text-green",
+          </h3>
+          <p className="text-sm font-medium text-dark-6">{label}</p>
+          {data.description && (
+            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              {data.description}
+            </p>
           )}
-        >
-          <dt className="flex items-center gap-1.5">
-            {data.growthRate}%
-            {isDecreasing ? (
-              <ArrowDownIcon aria-hidden />
-            ) : (
-              <ArrowUpIcon aria-hidden />
-            )}
-          </dt>
+        </div>
 
-          <dd className="sr-only">
-            {label} {isDecreasing ? "Decreased" : "Increased"} by{" "}
-            {data.growthRate}%
-          </dd>
-        </dl>
+        {hasChange && (
+          <div
+            className={cn(
+              "flex items-center gap-1.5 text-sm font-medium",
+              isDecreasing ? "text-red" : "text-green",
+            )}
+          >
+            {Math.abs(data.change!)}%
+            {isDecreasing ? (
+              <ArrowDownIcon aria-hidden className="h-4 w-4" />
+            ) : (
+              <ArrowUpIcon aria-hidden className="h-4 w-4" />
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

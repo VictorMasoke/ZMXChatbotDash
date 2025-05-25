@@ -14,27 +14,27 @@ import { BellIcon } from "./icons";
 
 const notificationList = [
   {
-    image: "/images/user/user-15.png",
+    image: "/images/user/user.png",
     title: "Piter Joined the Team!",
     subTitle: "Congratulate him",
   },
   {
-    image: "/images/user/user-03.png",
+    image: "/images/user/user.png",
     title: "New message",
     subTitle: "Devid sent a new message",
   },
   {
-    image: "/images/user/user-26.png",
+    image: "/images/user/user.png",
     title: "New Payment received",
     subTitle: "Check your earnings",
   },
   {
-    image: "/images/user/user-28.png",
+    image: "/images/user/user.png",
     title: "Jolly completed tasks",
     subTitle: "Assign new task",
   },
   {
-    image: "/images/user/user-27.png",
+    image: "/images/user/user.png",
     title: "Roman Joined the Team!",
     subTitle: "Congratulate him",
   },
@@ -107,7 +107,7 @@ export function Notification() {
                     {item.title}
                   </strong>
 
-                  <span className="truncate text-sm font-medium text-dark-5 dark:text-dark-6">
+                  <span className="truncate text-sm font-medium text-dark-500 dark:text-dark-6">
                     {item.subTitle}
                   </span>
                 </div>

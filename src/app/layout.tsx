@@ -1,10 +1,10 @@
 import "@/css/satoshi.css";
-import "@/css/style.css";
+import '../css/style.css';
 
 import { Sidebar } from "@/components/Layouts/sidebar";
 
-import "flatpickr/dist/flatpickr.min.css";
-import "jsvectormap/dist/jsvectormap.css";
+//import "flatpickr/dist/flatpickr.min.css";
+// import "jsvectormap/dist/jsvectormap.css";
 
 import { Header } from "@/components/Layouts/header";
 import type { Metadata } from "next";
@@ -14,11 +14,11 @@ import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | NextAdmin - Next.js Dashboard Kit",
-    default: "NextAdmin - Next.js Dashboard Kit",
+    template: "%s | ZMX Chatbot",
+    default: "ZMX Chatbot",
   },
   description:
-    "Next.js admin dashboard toolkit with 200+ templates, UI components, and integrations for fast dashboard development.",
+    "ZMX Chatbot for managing ZMX Users through whatsapp",
 };
 
 export default function RootLayout({ children }: PropsWithChildren) {
@@ -26,7 +26,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
     <html lang="en" suppressHydrationWarning>
       <body>
         <Providers>
-          <NextTopLoader color="#5750F1" showSpinner={false} />
+          <NextTopLoader color="#12AA4E" showSpinner={false} />
 
           <div className="flex min-h-screen">
             <Sidebar />

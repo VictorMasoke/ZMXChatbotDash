@@ -10,7 +10,7 @@ import { SocialAccounts } from "./_components/social-accounts";
 export default function Page() {
   const [data, setData] = useState({
     name: "Danish Heilium",
-    profilePhoto: "/images/user/user-03.png",
+    profilePhoto: "/images/user/user.png",
     coverPhoto: "/images/cover/cover-01.png",
   });
 
@@ -47,14 +47,10 @@ export default function Page() {
             src={data?.coverPhoto}
             alt="profile cover"
             className="h-full w-full rounded-tl-[10px] rounded-tr-[10px] object-cover object-center"
-            width={970}
-            height={260}
-            style={{
-              width: "auto",
-              height: "auto",
-            }}
+            width={1165}
+            height={420}
           />
-          <div className="absolute bottom-1 right-1 z-10 xsm:bottom-4 xsm:right-4">
+          {/* <div className="absolute bottom-1 right-1 z-10 xsm:bottom-4 xsm:right-4">
             <label
               htmlFor="cover"
               className="flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary px-[15px] py-[5px] text-body-sm font-medium text-white hover:bg-opacity-90"
@@ -72,7 +68,7 @@ export default function Page() {
 
               <span>Edit</span>
             </label>
-          </div>
+          </div> */}
         </div>
         <div className="px-4 pb-6 text-center lg:pb-8 xl:pb-11.5">
           <div className="relative z-30 mx-auto -mt-22 h-30 w-full max-w-30 rounded-full bg-white/20 p-1 backdrop-blur sm:h-44 sm:max-w-[176px] sm:p-3">
@@ -87,7 +83,7 @@ export default function Page() {
                     alt="profile"
                   />
 
-                  <label
+                  {/* <label
                     htmlFor="profilePhoto"
                     className="absolute bottom-0 right-0 flex size-8.5 cursor-pointer items-center justify-center rounded-full bg-primary text-white hover:bg-opacity-90 sm:bottom-2 sm:right-2"
                   >
@@ -101,7 +97,7 @@ export default function Page() {
                       onChange={handleChange}
                       accept="image/png, image/jpg, image/jpeg"
                     />
-                  </label>
+                  </label> */}
                 </>
               )}
             </div>
@@ -111,31 +107,10 @@ export default function Page() {
               {data?.name}
             </h3>
             <p className="font-medium">Ui/Ux Designer</p>
-            <div className="mx-auto mb-5.5 mt-5 grid max-w-[370px] grid-cols-3 rounded-[5px] border border-stroke py-[9px] shadow-1 dark:border-dark-3 dark:bg-dark-2 dark:shadow-card">
-              <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-dark-3 xsm:flex-row">
-                <span className="font-medium text-dark dark:text-white">
-                  259
-                </span>
-                <span className="text-body-sm">Posts</span>
-              </div>
-              <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-dark-3 xsm:flex-row">
-                <span className="font-medium text-dark dark:text-white">
-                  129K
-                </span>
-                <span className="text-body-sm">Followers</span>
-              </div>
-              <div className="flex flex-col items-center justify-center gap-1 px-4 xsm:flex-row">
-                <span className="font-medium text-dark dark:text-white">
-                  2K
-                </span>
-                <span className="text-body-sm-sm">Following</span>
-              </div>
-            </div>
+
 
             <div className="mx-auto max-w-[720px]">
-              <h4 className="font-medium text-dark dark:text-white">
-                About Me
-              </h4>
+
               <p className="mt-4">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 Pellentesque posuere fermentum urna, eu condimentum mauris
@@ -145,7 +120,6 @@ export default function Page() {
               </p>
             </div>
 
-            <SocialAccounts />
           </div>
         </div>
       </div>

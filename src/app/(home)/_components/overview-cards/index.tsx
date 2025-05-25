@@ -1,47 +1,56 @@
 import { compactFormat } from "@/lib/format-number";
-import { getOverviewData } from "../../fetch";
+import { getDashboardUsers, getDashboardBuyOrders, getDashboardSellOrders } from "@/components/Tables/fetch";
 import { OverviewCard } from "./card";
 import * as icons from "./icons";
 
 export async function OverviewCardsGroup() {
-  const { views, profit, products, users } = await getOverviewData();
+  // Fetch all dashboard data in parallel
+  const [usersData, buyOrdersData, sellOrdersData] = await Promise.all([
+    getDashboardUsers(),
+    getDashboardBuyOrders(),
+    getDashboardSellOrders()
+  ]);
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 xl:grid-cols-4 2xl:gap-7.5">
       <OverviewCard
-        label="Total Views"
+        label="Registrations Today"
         data={{
-          ...views,
-          value: compactFormat(views.value),
+          value: compactFormat(usersData?.today_users || 0),
+          change: usersData?.percent_increase || 0,
+          description: `vs yesterday (${usersData?.yesterday_users || 0})`
         }}
-        Icon={icons.Views}
+        Icon={icons.Users}
       />
 
       <OverviewCard
-        label="Total Profit"
+        label="Total Registered Users"
         data={{
-          ...profit,
-          value: "$" + compactFormat(profit.value),
+          value: compactFormat(usersData?.total_users || 0),
+          change: usersData?.percent_today || 0,
+          description: `Today (${usersData?.today_users || 0})`
+        }}
+        Icon={icons.Users}
+      />
+
+      <OverviewCard
+        label="Total Buy Orders"
+        data={{
+          value: compactFormat(buyOrdersData?.total_orders || 0),
+          change: buyOrdersData?.percent_change || 0,
+          description: `Today (${buyOrdersData?.today_orders || 0})`
         }}
         Icon={icons.Profit}
       />
 
       <OverviewCard
-        label="Total Products"
+        label="Total Sell Orders"
         data={{
-          ...products,
-          value: compactFormat(products.value),
+          value: compactFormat(sellOrdersData?.total_orders || 0),
+          change: sellOrdersData?.percent_change || 0,
+          description: `Today (${sellOrdersData?.today_orders || 0})`
         }}
-        Icon={icons.Product}
-      />
-
-      <OverviewCard
-        label="Total Users"
-        data={{
-          ...users,
-          value: compactFormat(users.value),
-        }}
-        Icon={icons.Users}
+        Icon={icons.Profit}
       />
     </div>
   );
