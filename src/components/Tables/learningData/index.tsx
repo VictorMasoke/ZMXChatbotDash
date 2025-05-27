@@ -1,23 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getAILearningData, deleteAILearningData, addAILearningData } from "../fetch";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { getAILearningData, deleteAILearningData, addAILearningData } from "../../../lib/routes/fetch";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { Select } from "@/components/FormElements/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
 import InputGroup from "@/components/FormElements/InputGroup";
 import { TextAreaGroup } from "@/components/FormElements/InputGroup/text-area";
 
@@ -92,19 +81,17 @@ export default function AILearningTable() {
         <div className="p-6.5 border-b">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5.5">
             <div>
-              <InputGroup
+              <Select
                 label="Model Name"
-                value={newData.model_name}
-                handleChange={(e) =>
-                  setNewData({ ...newData, model_name: e.target.value })
-                }
-                placeholder="Enter model name"
-                type="text"
+                items={[
+                  { label: "Gemini", value: "Gemini" },
+                ]}
+                defaultValue="Gemini"
               />
             </div>
             <div>
               <TextAreaGroup
-                label="Input Text"
+                label="Input Question"
                 defaultValue={newData.input_text}
                 onChange={(e) =>
                   setNewData({ ...newData, input_text: e.target.value })
@@ -114,7 +101,7 @@ export default function AILearningTable() {
             </div>
             <div>
               <TextAreaGroup
-                label="Prediction"
+                label="Prediction Answer"
                 defaultValue={newData.prediction}
                 onChange={(e) =>
                   setNewData({ ...newData, prediction: e.target.value })

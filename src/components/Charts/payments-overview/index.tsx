@@ -1,7 +1,7 @@
 // OrdersOverview.tsx
 import { standardFormat } from "@/lib/format-number";
 import { cn } from "@/lib/utils";
-import { getOrderTrends } from "@/components/Tables/fetch";
+import { getOrderTrends } from "@/lib/routes/fetch";
 import { OrdersOverviewChart } from "./chart";
 
 type PropsType = {

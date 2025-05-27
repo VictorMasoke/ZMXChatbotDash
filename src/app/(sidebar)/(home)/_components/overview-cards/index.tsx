@@ -1,5 +1,5 @@
 import { compactFormat } from "@/lib/format-number";
-import { getDashboardUsers, getDashboardBuyOrders, getDashboardSellOrders } from "@/components/Tables/fetch";
+import { getDashboardUsers, getDashboardBuyOrders, getDashboardSellOrders } from "@/lib/routes/fetch";
 import { OverviewCard } from "./card";
 import * as icons from "./icons";
 

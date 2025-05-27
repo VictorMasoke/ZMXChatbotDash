@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
-import { getInvoiceTableData } from "./fetch";
+import { getInvoiceTableData } from "../../lib/routes/fetch";
 import { DownloadIcon, PreviewIcon } from "./icons";
 
 export async function InvoiceTable() {

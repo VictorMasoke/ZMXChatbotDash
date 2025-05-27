@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { getRegisteredUsers } from "../fetch";
+import { getRegisteredUsers } from "../../../lib/routes/fetch";
 
 export async function RegisteredUsersTable({ className }: { className?: string }) {
   const users = await getRegisteredUsers();

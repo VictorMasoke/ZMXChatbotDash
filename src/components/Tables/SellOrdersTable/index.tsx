@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { getSellOrders } from "../fetch";
+import { getSellOrders } from "../../../lib/routes/fetch";
 import { standardFormat } from "@/lib/format-number";
 
 export async function SellOrdersTable({ className }: { className?: string }) {
