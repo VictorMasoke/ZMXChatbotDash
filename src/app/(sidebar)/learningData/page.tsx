@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import AILearningTable from "@/components/Tables/learningData";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export const metadata: Metadata = {
   title: "AI Learning Data",
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 export default async function AILearningPage() {
   return (
     <>
+    <ProtectedRoute>
       <Breadcrumb pageName="AI Learning Data" />
 
       <div className="grid grid-cols-1 gap-9">
@@ -19,6 +21,7 @@ export default async function AILearningPage() {
           <AILearningTable />
         </div>
       </div>
+    </ProtectedRoute>
     </>
   );
 }

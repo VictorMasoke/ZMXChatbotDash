@@ -1,5 +1,5 @@
 "use client";
-
+import ProtectedRoute from "@/components/ProtectedRoute";
 import { Logo } from "@/components/logo";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -44,6 +44,7 @@ export function Sidebar() {
 
   return (
     <>
+    <ProtectedRoute>
       {/* Mobile Overlay */}
       {isMobile && isOpen && (
         <div
@@ -175,6 +176,7 @@ export function Sidebar() {
           </div>
         </div>
       </aside>
+    </ProtectedRoute>
     </>
   );
 }

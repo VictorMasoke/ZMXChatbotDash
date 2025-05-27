@@ -1,23 +1,23 @@
 "use client";
 
 import { ChevronUpIcon } from "@/assets/icons";
-import {
-  Dropdown,
-  DropdownContent,
-  DropdownTrigger,
-} from "@/components/ui/dropdown";
+import { Dropdown, DropdownContent, DropdownTrigger, } from "@/components/ui/dropdown";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { LogOutIcon, SettingsIcon, UserIcon } from "./icons";
+import { LogOutIcon, UserIcon } from "./icons";
+import { useSession } from "@/context/SessionContext";
+import { verifyToken } from "@/lib/routes/requests";
+
 
 export function UserInfo() {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useSession();
 
   const USER = {
-    name: "John Smith",
-    email: "johnson@nextadmin.com",
+    name: user?.firstName + " " + user?.lastName,
+    email: user?.email,
     img: "/images/user/user.png",
   };
 

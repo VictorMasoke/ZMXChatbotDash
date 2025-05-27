@@ -3,6 +3,7 @@ import { createTimeFrameExtractor } from "@/utils/timeframe-extractor";
 import { Suspense } from "react";
 import { OverviewCardsGroup } from "./_components/overview-cards";
 import { OverviewCardsSkeleton } from "./_components/overview-cards/skeleton";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 type PropsType = {
   searchParams: Promise<{
@@ -16,17 +17,20 @@ export default async function Home({ searchParams }: PropsType) {
 
   return (
     <>
-      <Suspense fallback={<OverviewCardsSkeleton />}>
-        <OverviewCardsGroup />
-      </Suspense>
+      <ProtectedRoute>
+        <Suspense fallback={<OverviewCardsSkeleton />}>
+          <OverviewCardsGroup />
+        </Suspense>
 
-      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-12 2xl:mt-9 2xl:gap-7.5">
-        <OrdersOverview
-          className="col-span-12 xl:col-span-12"
-          key={extractTimeFrame("payments_overview")}
-        />
+        <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-12 2xl:mt-9 2xl:gap-7.5">
+          <OrdersOverview
+            className="col-span-12 xl:col-span-12"
+            key={extractTimeFrame("payments_overview")}
+          />
 
-      </div>
+        </div>
+      </ProtectedRoute>
+
     </>
   );
 }

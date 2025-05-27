@@ -1,4 +1,7 @@
+import { UserData } from "../utils";
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:5000';
+
 
 export async function fetchWithAuth(url: string, options: RequestInit = {}) {
   const username = process.env.NEXT_PUBLIC_API_USERNAME;
@@ -18,6 +21,27 @@ export async function fetchWithAuth(url: string, options: RequestInit = {}) {
   }
 
   return response.json();
+}
+
+export async function verifyToken(): Promise<UserData> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/admin/verify-token`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Token verification failed');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error verifying token:', error);
+    throw error;
+  }
 }
 
 export async function fetchWithoutAuth(url: string, options: RequestInit = {}) {

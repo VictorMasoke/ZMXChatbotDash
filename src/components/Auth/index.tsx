@@ -5,19 +5,23 @@ import React, { useState } from "react";
 import InputGroup from "@/components/FormElements/InputGroup";
 import { Checkbox } from "@/components/FormElements/checkbox";
 import { adminSignUp, signIn, resetPassword } from "@/lib/routes/auth";
+import { useSession } from "@/context/SessionContext";
+import { useRouter } from "next/navigation";
 
 type AuthMode = "signin" | "signup";
 
 export default function AuthForm() {
+  const { login, signup } = useSession();
+  const router = useRouter();
   const [mode, setMode] = useState<AuthMode>("signin");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Signin state
   const [signinData, setSigninData] = useState({
     email: process.env.NEXT_PUBLIC_DEMO_USER_MAIL || "",
     password: process.env.NEXT_PUBLIC_DEMO_USER_PASS || "",
   });
-
 
   // Signup state
   const [signupData, setSignupData] = useState({
@@ -43,41 +47,54 @@ export default function AuthForm() {
     });
   };
 
-  const handleSigninSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSigninSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
 
-    // Your signin logic here
-
-    console.log(signinData);
-    setTimeout(() => {
+    try {
+      await login(signinData.email, signinData.password);
+      router.push("/"); // Redirect after successful login
+    } catch (err) {
+      setError("Invalid email or password");
       setLoading(false);
-    }, 1000);
+    }
   };
 
-  const handleSignupSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignupSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
 
     if (signupData.password !== signupData.confirmPassword) {
-      alert("Passwords don't match");
+      setError("Passwords don't match");
       return;
     }
 
     if (!signupData.agreeTerms) {
-      alert("You must agree to the terms and conditions");
+      setError("You must agree to the terms and conditions");
       return;
     }
 
     setLoading(true);
 
-    console.log(signupData);
-
-    // Your signup logic here
-    setTimeout(() => {
+    try {
+      await signup({
+        firstName: signupData.firstName,
+        lastName: signupData.lastName,
+        email: signupData.email,
+        password: signupData.password,
+      });
+      // After successful signup, switch to signin
+      setMode("signin");
+      setSigninData({
+        email: signupData.email,
+        password: "",
+      });
+    } catch (err) {
+      setError("Error creating account. Please try again.");
+    } finally {
       setLoading(false);
-      // After successful signup, you might want to switch to signin
-      // setMode("signin");
-    }, 1000);
+    }
   };
 
   return (
@@ -85,6 +102,12 @@ export default function AuthForm() {
       <h1 className="mb-5 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
         {mode === "signin" ? "Welcome Back" : "Create Account"}
       </h1>
+
+      {error && (
+        <div className="mb-4 rounded-lg bg-danger/10 p-3 text-center text-danger">
+          {error}
+        </div>
+      )}
 
       {mode === "signin" ? (
         <form onSubmit={handleSigninSubmit}>
@@ -111,7 +134,6 @@ export default function AuthForm() {
           />
 
           <div className="mb-6 flex items-center justify-between gap-2 py-2 font-medium">
-
             <Link
               href="/auth/forgot-password"
               className="hover:text-primary dark:text-white dark:hover:text-primary"
@@ -124,6 +146,7 @@ export default function AuthForm() {
             <button
               type="submit"
               className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary p-4 font-medium text-white transition hover:bg-opacity-90"
+              disabled={loading}
             >
               Sign In
               {loading && (
@@ -224,6 +247,7 @@ export default function AuthForm() {
             <button
               type="submit"
               className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary p-4 font-medium text-white transition hover:bg-opacity-90"
+              disabled={loading}
             >
               Create Account
               {loading && (

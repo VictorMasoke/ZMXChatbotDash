@@ -41,8 +41,8 @@ export const NAV_DATA = [
     items: [
 
       {
-        title: "Profile",
-        url: "/profile",
+        title: "Logout",
+        url: "/logout",
         icon: Icons.Authentication,
         items: [],
       },
