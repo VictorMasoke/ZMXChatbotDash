@@ -3,10 +3,12 @@ import { EmailIcon, PasswordIcon, UserIcon } from "@/assets/icons";
 import Link from "next/link";
 import React, { useState } from "react";
 import InputGroup from "@/components/FormElements/InputGroup";
+import { TextAreaGroup } from "../FormElements/InputGroup/text-area";
 import { Checkbox } from "@/components/FormElements/checkbox";
 import { adminSignUp, signIn, resetPassword } from "@/lib/routes/auth";
 import { useSession } from "@/context/SessionContext";
 import { useRouter } from "next/navigation";
+import { ThemeToggleSwitch } from "../Layouts/header/theme-toggle";
 
 type AuthMode = "signin" | "signup";
 
@@ -31,6 +33,7 @@ export default function AuthForm() {
     password: "",
     confirmPassword: "",
     agreeTerms: false,
+    bio: "",
   });
 
   const handleSigninChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,10 +73,10 @@ export default function AuthForm() {
       return;
     }
 
-    if (!signupData.agreeTerms) {
-      setError("You must agree to the terms and conditions");
-      return;
-    }
+    // if (!signupData.agreeTerms) {
+    //   setError("You must agree to the terms and conditions");
+    //   return;
+    // }
 
     setLoading(true);
 
@@ -83,6 +86,7 @@ export default function AuthForm() {
         lastName: signupData.lastName,
         email: signupData.email,
         password: signupData.password,
+        bio: signupData.bio,
       });
       // After successful signup, switch to signin
       setMode("signin");
@@ -99,12 +103,16 @@ export default function AuthForm() {
 
   return (
     <>
+      <div className="mb-10">
+        <ThemeToggleSwitch/>
+      </div>
+
       <h1 className="mb-5 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
         {mode === "signin" ? "Welcome Back" : "Create Account"}
       </h1>
 
       {error && (
-        <div className="mb-4 rounded-lg bg-danger/10 p-3 text-center text-danger">
+        <div className="mb-4 rounded-lg bg-danger p-3 text-center text-danger">
           {error}
         </div>
       )}
@@ -133,19 +141,19 @@ export default function AuthForm() {
             icon={<PasswordIcon />}
           />
 
-          <div className="mb-6 flex items-center justify-between gap-2 py-2 font-medium">
+          {/* <div className="mb-6 flex items-center justify-between gap-2 py-2 font-medium">
             <Link
               href="/auth/forgot-password"
               className="hover:text-primary dark:text-white dark:hover:text-primary"
             >
               Forgot Password?
             </Link>
-          </div>
+          </div> */}
 
           <div className="mb-4.5">
             <button
               type="submit"
-              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary p-4 font-medium text-white transition hover:bg-opacity-90"
+              className="flex w-full dark:text-black cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary p-4 font-medium text-white transition hover:bg-opacity-90"
               disabled={loading}
             >
               Sign In
@@ -226,7 +234,16 @@ export default function AuthForm() {
             icon={<PasswordIcon />}
           />
 
-          <div className="mb-6">
+          <TextAreaGroup
+            label="Bio"
+            defaultValue={signupData.bio}
+            className="mb-5 [&_input]:py-[15px]"
+            onChange={handleSignupChange}
+            placeholder="Tell Us About Yourself"
+            name="bio"
+          />
+
+          {/* <div className="mb-6">
             <Checkbox
               label="I agree to the Terms and Conditions"
               name="agreeTerms"
@@ -241,17 +258,17 @@ export default function AuthForm() {
                 })
               }
             />
-          </div>
+          </div> */}
 
           <div className="mb-4.5">
             <button
               type="submit"
-              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary p-4 font-medium text-white transition hover:bg-opacity-90"
+              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary p-4 font-medium text-white dark:text-black transition hover:bg-opacity-90"
               disabled={loading}
             >
               Create Account
               {loading && (
-                <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-white border-t-transparent dark:border-primary dark:border-t-transparent" />
+                <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-white border-t-transparent dark:text-black dark:border-secondary dark:border-t-transparent" />
               )}
             </button>
           </div>
@@ -265,6 +282,9 @@ export default function AuthForm() {
                 className="text-primary hover:underline"
               >
                 Sign in
+                {loading && (
+                  <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-white border-t-transparent dark:text-black dark:border-secondary dark:border-t-transparent" />
+                )}
               </button>
             </p>
           </div>

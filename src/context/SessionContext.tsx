@@ -27,6 +27,7 @@ interface SessionContextType {
     lastName: string;
     email: string;
     password: string;
+    bio: string;
   }) => Promise<void>;
 }
 
@@ -145,6 +146,7 @@ export const SessionProvider = ({ children }: { children: ReactNode }) => {
     lastName: string;
     email: string;
     password: string;
+    bio?: string
   }) => {
     try {
       const response = await adminSignUp({
@@ -152,7 +154,7 @@ export const SessionProvider = ({ children }: { children: ReactNode }) => {
         first_name: data.firstName,
         last_name: data.lastName,
         password: data.password,
-        bio: "", // Add bio if needed
+        bio: data.bio || "", // Add bio if needed
       });
       return response;
     } catch (error) {

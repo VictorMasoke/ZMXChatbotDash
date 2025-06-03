@@ -21,7 +21,7 @@ export default function SignIn() {
           <div
             className="custom-gradient-1 h-full overflow-hidden rounded-2xl px-12.5 pt-12.5 dark:!bg-dark-2 dark:bg-none"
             style={{
-              backgroundImage: "url('/images/cover/background-image.jpg')",
+              backgroundImage: "url('/images/cover/pexels-deneen-l-treble-390196-1058401.jpg')",
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
@@ -42,6 +42,8 @@ export default function SignIn() {
                 height={32}
               />
             </Link>
+
+
           </div>
         </div>
       </div>

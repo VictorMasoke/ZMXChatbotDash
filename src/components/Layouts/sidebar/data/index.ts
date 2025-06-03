@@ -42,7 +42,7 @@ export const NAV_DATA = [
 
       {
         title: "Logout",
-        url: "/logout",
+        url: "/auth",
         icon: Icons.Authentication,
         items: [],
       },

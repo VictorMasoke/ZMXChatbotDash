@@ -11,7 +11,6 @@ export async function getDashboardUsers() {
   }
 }
 
-
 export async function getAdminUsers() {
   try {
     // Fake delay for development
@@ -38,11 +37,6 @@ export async function adminSignUp(data: {
       },
       body: JSON.stringify(data)
     });
-
-    if (!response.ok) {
-      const errorData = await response;
-      throw new Error(errorData.message || 'Signup failed');
-    }
 
     return await response;
   } catch (error) {
