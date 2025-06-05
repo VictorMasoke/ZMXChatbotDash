@@ -34,6 +34,12 @@ export const NAV_DATA = [
         icon: Icons.ChevronUp,
         items: [],
       },
+      {
+        title: "Send Custom Message",
+        url: "/customMessage",
+        icon: Icons.PieChart,
+        items: [],
+      },
     ],
   },
   {

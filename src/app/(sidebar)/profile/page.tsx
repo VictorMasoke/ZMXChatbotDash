@@ -13,10 +13,10 @@ export default function Page() {
   const { user } = useSession();
 
   const [data, setData] = useState({
-    name: user?.firstName + " " + user?.lastName,
+    name: user?.first_name + " " + user?.last_name,
     profilePhoto: "/images/user/user.png",
     coverPhoto: "/images/cover/cover-01.png",
-    bio: user?.bio,
+    bio: user?.bio || "",
   });
 
 

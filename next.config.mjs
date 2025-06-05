@@ -26,6 +26,7 @@ const nextConfig = {
   },
   // Add webpack configuration for fonts
   webpack: (config) => {
+    // Keep your existing font configuration
     config.module.rules.push({
       test: /\.(woff|woff2|eot|ttf|otf)$/i,
       type: "asset/resource",
@@ -33,6 +34,14 @@ const nextConfig = {
         filename: "static/fonts/[name][ext]",
       },
     });
+
+    // Add this for better CSS error output
+    if (process.env.NODE_ENV === 'development') {
+      config.optimization.minimizer = config.optimization.minimizer.filter(
+        (plugin) => plugin.constructor.name !== 'CssMinimizerPlugin'
+      );
+    }
+
     return config;
   },
 };

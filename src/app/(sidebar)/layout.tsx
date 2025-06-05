@@ -1,5 +1,6 @@
 import "../../css/satoshi.css";
 import '../../css/style.css';
+
 import { SessionProvider } from "@/context/SessionContext";
 import { Sidebar } from "@/components/Layouts/sidebar";
 

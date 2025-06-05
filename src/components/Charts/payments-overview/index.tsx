@@ -8,20 +8,26 @@ type PropsType = {
   className?: string;
 };
 
+interface TrendItem {
+  type: 'buy' | 'sell';
+  date: string;
+  quantity: number;
+}
+
 export async function OrdersOverview({ className }: PropsType) {
-  const trendsData = await getOrderTrends();
+  const trendsData: TrendItem[] = await getOrderTrends();
 
   // Transform the API data to match the chart component's expected format
   const chartData = {
     buy: trendsData
-      .filter(item => item.type === 'buy')
-      .map(item => ({
+      .filter((item: TrendItem) => item.type === 'buy')
+      .map((item: TrendItem) => ({
         x: item.date,
         y: item.quantity
       })),
     sell: trendsData
-      .filter(item => item.type === 'sell')
-      .map(item => ({
+      .filter((item: TrendItem) => item.type === 'sell')
+      .map((item: TrendItem) => ({
         x: item.date,
         y: item.quantity
       }))

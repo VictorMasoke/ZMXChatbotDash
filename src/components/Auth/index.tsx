@@ -27,8 +27,8 @@ export default function AuthForm() {
 
   // Signup state
   const [signupData, setSignupData] = useState({
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -44,6 +44,14 @@ export default function AuthForm() {
   };
 
   const handleSignupChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSignupData({
+      ...signupData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // Add this new handler function
+  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setSignupData({
       ...signupData,
       [e.target.name]: e.target.value,
@@ -73,17 +81,12 @@ export default function AuthForm() {
       return;
     }
 
-    // if (!signupData.agreeTerms) {
-    //   setError("You must agree to the terms and conditions");
-    //   return;
-    // }
-
     setLoading(true);
 
     try {
       await signup({
-        firstName: signupData.firstName,
-        lastName: signupData.lastName,
+        first_name: signupData.first_name,
+        last_name: signupData.last_name,
         email: signupData.email,
         password: signupData.password,
         bio: signupData.bio,
@@ -141,15 +144,6 @@ export default function AuthForm() {
             icon={<PasswordIcon />}
           />
 
-          {/* <div className="mb-6 flex items-center justify-between gap-2 py-2 font-medium">
-            <Link
-              href="/auth/forgot-password"
-              className="hover:text-primary dark:text-white dark:hover:text-primary"
-            >
-              Forgot Password?
-            </Link>
-          </div> */}
-
           <div className="mb-4.5">
             <button
               type="submit"
@@ -165,7 +159,7 @@ export default function AuthForm() {
 
           <div className="mt-6 text-center">
             <p className="dark:text-white">
-              Don't have an account?{" "}
+              Do not have an account?{" "}
               <button
                 type="button"
                 onClick={() => setMode("signup")}
@@ -184,9 +178,9 @@ export default function AuthForm() {
               label="First Name"
               className="[&_input]:py-[15px]"
               placeholder="First name"
-              name="firstName"
+              name="first_name"
               handleChange={handleSignupChange}
-              value={signupData.firstName}
+              value={signupData.first_name}
               icon={<UserIcon />}
             />
             <InputGroup
@@ -194,9 +188,9 @@ export default function AuthForm() {
               label="Last Name"
               className="[&_input]:py-[15px]"
               placeholder="Last name"
-              name="lastName"
+              name="last_name"
               handleChange={handleSignupChange}
-              value={signupData.lastName}
+              value={signupData.last_name}
               icon={<UserIcon />}
             />
           </div>
@@ -238,27 +232,10 @@ export default function AuthForm() {
             label="Bio"
             defaultValue={signupData.bio}
             className="mb-5 [&_input]:py-[15px]"
-            onChange={handleSignupChange}
+            onChange={handleTextAreaChange}  // Use the new handler here
             placeholder="Tell Us About Yourself"
             name="bio"
           />
-
-          {/* <div className="mb-6">
-            <Checkbox
-              label="I agree to the Terms and Conditions"
-              name="agreeTerms"
-              checked={signupData.agreeTerms}
-              withIcon="check"
-              minimal
-              radius="md"
-              onChange={(e) =>
-                setSignupData({
-                  ...signupData,
-                  agreeTerms: e.target.checked,
-                })
-              }
-            />
-          </div> */}
 
           <div className="mb-4.5">
             <button

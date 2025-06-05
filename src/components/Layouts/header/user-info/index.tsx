@@ -13,12 +13,21 @@ import { verifyToken } from "@/lib/routes/requests";
 
 export function UserInfo() {
   const [isOpen, setIsOpen] = useState(false);
-  const { user } = useSession();
+  const { user, logout } = useSession();
 
   const USER = {
-    name: user?.firstName + " " + user?.lastName,
+    name: user?.first_name + " " + user?.last_name,
     email: user?.email,
     img: "/images/user/user.png",
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      window.location.reload();
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
   return (
@@ -106,7 +115,7 @@ export function UserInfo() {
         <div className="p-2 text-base text-[#4B5563] dark:text-dark-6">
              <Link
             href={"/auth"}
-            onClick={() => setIsOpen(false)}
+            onClick={handleLogout}
             className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-[9px] hover:bg-gray-2 hover:text-dark dark:hover:bg-dark-3 dark:hover:text-white"
           >
             <LogOutIcon />

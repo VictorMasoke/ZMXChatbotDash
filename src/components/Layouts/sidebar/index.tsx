@@ -9,7 +9,7 @@ import { NAV_DATA } from "./data";
 import { ArrowLeftIcon, ChevronUp } from "./icons";
 import { MenuItem } from "./menu-item";
 import { useSidebarContext } from "./sidebar-context";
-
+import { NavItem, NavSection, SubItem } from "@/types/navigation";
 export function Sidebar() {
   const pathname = usePathname();
   const { setIsOpen, isOpen, isMobile, toggleSidebar } = useSidebarContext();
@@ -26,17 +26,16 @@ export function Sidebar() {
 
   useEffect(() => {
     // Keep collapsible open, when it's subpage is active
-    NAV_DATA.some((section) => {
-      return section.items.some((item) => {
-        return item.items.some((subItem) => {
+    NAV_DATA.some((section: NavSection) => {
+      return section.items.some((item: NavItem) => {
+        return item.items?.some((subItem: SubItem) => {
           if (subItem.url === pathname) {
             if (!expandedItems.includes(item.title)) {
               toggleExpanded(item.title);
             }
-
-            // Break the loop
             return true;
           }
+          return false;
         });
       });
     });
@@ -128,7 +127,7 @@ export function Sidebar() {
                                 className="ml-9 mr-0 space-y-1.5 pb-[15px] pr-0 pt-2"
                                 role="menu"
                               >
-                                {item.items.map((subItem) => (
+                                {item.items.map((subItem: SubItem) => (
                                   <li key={subItem.title} role="none">
                                     <MenuItem
                                       as="link"
@@ -144,11 +143,9 @@ export function Sidebar() {
                           </div>
                         ) : (
                           (() => {
-                            const href =
-                              "url" in item
-                                ? item.url + ""
-                                : "/" +
-                                  item.title.toLowerCase().split(" ").join("-");
+                            const href = 'url' in item
+                              ? item.url
+                              : `/`;
 
                             return (
                               <MenuItem
@@ -157,11 +154,9 @@ export function Sidebar() {
                                 href={href}
                                 isActive={pathname === href}
                               >
-                                <item.icon
-                                  className="size-6 shrink-0"
-                                  aria-hidden="true"
-                                />
-
+                                {item.icon && (
+                                  <item.icon className="size-6 shrink-0" aria-hidden="true" />
+                                )}
                                 <span>{item.title}</span>
                               </MenuItem>
                             );

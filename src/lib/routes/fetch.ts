@@ -1,5 +1,20 @@
 import { fetchWithAuth } from "./requests";
 
+interface Order {
+  user_id: number;
+  phone_number: string;
+  commodity: string;
+  quantity: number;
+  price: number;
+  created_at: string;
+  status: string;
+}
+
+interface ApiResponse<T> {
+  data?: T;
+  error?: string;
+}
+
 
 export async function getRegisteredUsers() {
   try {
@@ -31,6 +46,42 @@ export async function getSellOrders() {
   } catch (error) {
     console.error('Error fetching sell orders:', error);
     return [];
+  }
+}
+
+export async function updateOrderStatus(
+  orderType: 'buy' | 'sell',
+  orderId: number,
+  status: 'PENDING' | 'MATCHED' | 'CANCELLED' | 'COMPLETED'
+): Promise<ApiResponse<Order>> {
+  try {
+    const response = await fetchWithAuth(`/api/orders/${orderType}/${orderId}`, {
+      method: 'PUT',
+      body: JSON.stringify({ status }),
+    });
+
+    const data = await response;
+    return { data };
+  } catch (error) {
+    console.error(`Error updating ${orderType} order status:`, error);
+    return { error: error instanceof Error ? error.message : 'Unknown error' };
+  }
+}
+
+export async function deleteOrder(
+  orderType: 'buy' | 'sell',
+  orderId: number
+): Promise<ApiResponse<{ message: string }>> {
+  try {
+    const response = await fetchWithAuth(`/api/orders/${orderType}/${orderId}`, {
+      method: 'DELETE',
+    });
+
+    const data = await response;
+    return { data };
+  } catch (error) {
+    console.error(`Error deleting ${orderType} order:`, error);
+    return { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 }
 

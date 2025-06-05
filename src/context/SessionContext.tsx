@@ -6,9 +6,10 @@ import { createContext, useContext, useEffect, useState, ReactNode } from "react
 interface User {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  first_name?: string;
+  last_name?: string;
   isSuperadmin?: boolean;
+  bio?: string;
 }
 
 interface AuthResponse {
@@ -23,12 +24,12 @@ interface SessionContextType {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   signup: (data: {
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     email: string;
     password: string;
-    bio: string;
-  }) => Promise<void>;
+    bio?: string;
+  }) => Promise<AuthResponse>;  // Changed return type
 }
 
 const SessionContext = createContext<SessionContextType | undefined>(undefined);
@@ -46,8 +47,8 @@ export const SessionProvider = ({ children }: { children: ReactNode }) => {
       setUser({
         id: userData.id,
         email: userData.email,
-        firstName: userData.first_name,
-        lastName: userData.last_name,
+        first_name: userData.first_name,
+        last_name: userData.last_name,
         isSuperadmin: userData.is_superadmin
       });
       setToken(storedToken);
@@ -73,15 +74,15 @@ export const SessionProvider = ({ children }: { children: ReactNode }) => {
             localStorage.setItem("user", JSON.stringify({
               id: userData.id,
               email: userData.email,
-              firstName: userData.first_name,
-              lastName: userData.last_name,
+              first_name: userData.first_name,
+              last_name: userData.last_name,
               isSuperadmin: userData.is_superadmin
             }));
             setUser({
               id: userData.id,
               email: userData.email,
-              firstName: userData.first_name,
-              lastName: userData.last_name,
+              first_name: userData.first_name,
+              last_name: userData.last_name,
               isSuperadmin: userData.is_superadmin
             });
             setToken(storedToken);
@@ -116,15 +117,15 @@ export const SessionProvider = ({ children }: { children: ReactNode }) => {
         localStorage.setItem("authToken", response.token);
         localStorage.setItem("user", JSON.stringify(response.user));
         setToken(response.token);
-        setUser(response.user);
+        setUser(response?.user);
 
         // Fetch complete user data after login
         const userData = await verifyToken();
         setUser({
           id: userData.id,
           email: userData.email,
-          firstName: userData.first_name,
-          lastName: userData.last_name,
+          first_name: userData.first_name,
+          last_name: userData.last_name,
           isSuperadmin: userData.is_superadmin
         });
       }
@@ -142,8 +143,8 @@ export const SessionProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signup = async (data: {
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     email: string;
     password: string;
     bio?: string
@@ -151,8 +152,8 @@ export const SessionProvider = ({ children }: { children: ReactNode }) => {
     try {
       const response = await adminSignUp({
         email: data.email,
-        first_name: data.firstName,
-        last_name: data.lastName,
+        first_name: data.first_name,
+        last_name: data.last_name,
         password: data.password,
         bio: data.bio || "", // Add bio if needed
       });
