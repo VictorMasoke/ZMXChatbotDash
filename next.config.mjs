@@ -24,6 +24,8 @@ const nextConfig = {
       },
     ],
   },
+
+  //output: 'export',
   // Add webpack configuration for fonts
   webpack: (config) => {
     // Keep your existing font configuration

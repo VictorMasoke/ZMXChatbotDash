@@ -75,27 +75,27 @@ export default function SendCustomMessage({ className }: { className?: string })
     }
   };
 
-  const sortUsers = (usersToSort: User[]) => {
-    if (!sortField || !sortDirection) return usersToSort;
+  const sortUsers = useCallback((usersToSort: User[]) => {
+  if (!sortField || !sortDirection) return usersToSort;
 
-    return [...usersToSort].sort((a, b) => {
-      let aValue: any = a[sortField];
-      let bValue: any = b[sortField];
+  return [...usersToSort].sort((a, b) => {
+    let aValue: any = a[sortField];
+    let bValue: any = b[sortField];
 
-      // Handle different data types
-      if (sortField === 'created_at') {
-        aValue = new Date(aValue).getTime();
-        bValue = new Date(bValue).getTime();
-      } else if (typeof aValue === 'string') {
-        aValue = aValue.toLowerCase();
-        bValue = bValue.toLowerCase();
-      }
+    // Handle different data types
+    if (sortField === 'created_at') {
+      aValue = new Date(aValue).getTime();
+      bValue = new Date(bValue).getTime();
+    } else if (typeof aValue === 'string') {
+      aValue = aValue.toLowerCase();
+      bValue = bValue.toLowerCase();
+    }
 
-      if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
-      if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
-      return 0;
-    });
-  };
+    if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
+    if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
+    return 0;
+  });
+}, [sortField, sortDirection]);
 
   useEffect(() => {
     const filterAndSortUsers = () => {
@@ -120,7 +120,7 @@ export default function SendCustomMessage({ className }: { className?: string })
     };
 
     filterAndSortUsers();
-  }, [users, searchTerm, sortField, sortDirection]);
+  }, [users, searchTerm, sortUsers]); // Now sortUsers is stable due to useCallback
 
   const handleRefresh = () => {
     setIsRefreshing(true);

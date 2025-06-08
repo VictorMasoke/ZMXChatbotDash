@@ -4,8 +4,6 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Image from "next/image";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useState } from "react";
-import { CameraIcon } from "./_components/icons";
-import { SocialAccounts } from "./_components/social-accounts";
 import { useSession } from "@/context/SessionContext";
 
 export default function Page() {
