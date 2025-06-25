@@ -32,10 +32,10 @@ function HomeContent() {
 export default function Home() {
   return (
     <ProtectedRoute>
-      {/* <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div>Loading... 🐝🐝🐶-g</div>}>
+        <HomeContent />
+      </Suspense>
 
-      </Suspense> */}
-      <HomeContent />
     </ProtectedRoute>
   );
 }
