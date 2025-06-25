@@ -45,7 +45,6 @@ export function BuyOrdersTable({ className }: { className?: string }) {
   const fetchOrders = useCallback(async () => {
     try {
       const response = await getBuyOrders();
-      console.log(response);
       setOrders(response || []);
       setLoading(false);
       setIsRefreshing(false);
